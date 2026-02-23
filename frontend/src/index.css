@@ -1,0 +1,92 @@
+:root,
+[data-theme="dark"] {
+  /* Base typography */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Dark theme variables (default) */
+  color-scheme: dark;
+  --bg: #0b1020;
+  --surface: #0f1724;
+  --muted-surface: #111827;
+  --text: #e6eef8;
+  --muted: #9aa6bd;
+  --primary: #7c9cff;
+  --primary-600: #5a7dff;
+  --accent: #7c5cff;
+  --success: #10b981;
+  --danger: #ef4444;
+  --card-border: rgba(255, 255, 255, 0.03);
+  --glass: rgba(255, 255, 255, 0.03);
+  --link: #93b4ff;
+  --shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+  --nav-bg: rgba(11, 16, 32, 0.85);
+  --input-bg: #0b1020;
+  --input-border: rgba(255, 255, 255, 0.08);
+  --hover-bg: rgba(255, 255, 255, 0.05);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+a {
+  font-weight: 500;
+  color: var(--link);
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: var(--primary-600);
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--muted-surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.18s, transform 0.15s, background-color 0.3s;
+}
+
+button:hover {
+  border-color: var(--input-border);
+  transform: translateY(-2px);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}

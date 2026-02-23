@@ -1,0 +1,112 @@
+/* Articles component - dark theme styles */
+
+/* Loading UI */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 200px;
+  color: var(--muted);
+}
+
+/* Error UI */
+.error-message {
+  background: rgba(239, 68, 68, 0.06);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.12);
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.retry-btn {
+  background: var(--muted-surface);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.retry-btn:hover {
+  opacity: 0.95;
+}
+
+/* No results UI */
+.no-articles {
+  background: var(--surface);
+  border: 1px dashed rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  padding: 24px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.clear-filters-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--muted-surface);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.clear-filters-btn:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+
+/* Article grid tweaks */
+.articles-grid {
+  gap: 1.5rem;
+}
+
+.article-card {
+  background: var(--surface);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 6px 22px rgba(2, 6, 23, 0.45);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.article-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 48px rgba(2, 6, 23, 0.6);
+}
+
+.article-card .source {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+}
+
+.article-card h2 {
+  color: var(--text);
+}
+
+.article-card p {
+  color: var(--muted);
+}
+
+.article-card span {
+  color: var(--muted);
+}
+
+.article-card a {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+/* responsiveness */
+@media (max-width: 768px) {
+  .articles-grid {
+    grid-template-columns: 1fr;
+  }
+}

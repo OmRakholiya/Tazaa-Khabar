@@ -1,0 +1,104 @@
+/* Loading Spinner Component */
+.loading-spinner-container {
+  position: relative;
+  display: inline-block;
+}
+
+.loading-spinner-container.loading-spinner-small {
+  width: 32px;
+  height: 32px;
+}
+
+.loading-spinner-container.loading-spinner-medium {
+  width: 48px;
+  height: 48px;
+}
+
+.loading-spinner-container.loading-spinner-large {
+  width: 65px;
+  height: 65px;
+}
+
+.loading-spinner-dot {
+  position: absolute;
+  border-radius: 50px;
+  box-shadow: inset 0 0 0 3px var(--primary);
+  animation: loaderAnim 2.5s infinite;
+}
+
+.loading-spinner-dot2 {
+  animation-delay: -1.25s;
+}
+
+@keyframes loaderAnim {
+  0% {
+    inset: 0 35px 35px 0;
+  }
+  12.5% {
+    inset: 0 35px 0 0;
+  }
+  25% {
+    inset: 35px 35px 0 0;
+  }
+  37.5% {
+    inset: 35px 0 0 0;
+  }
+  50% {
+    inset: 35px 0 0 35px;
+  }
+  62.5% {
+    inset: 0 0 0 35px;
+  }
+  75% {
+    inset: 0 0 35px 35px;
+  }
+  87.5% {
+    inset: 0 0 35px 0;
+  }
+  100% {
+    inset: 0 35px 35px 0;
+  }
+}
+
+/* Small size adjustments */
+.loading-spinner-small .loading-spinner-dot {
+  box-shadow: inset 0 0 0 2px var(--primary);
+  animation: loaderAnimSmall 2.5s infinite;
+}
+
+.loading-spinner-small .loading-spinner-dot2 {
+  animation-delay: -1.25s;
+}
+
+@keyframes loaderAnimSmall {
+  0% { inset: 0 17px 17px 0; }
+  12.5% { inset: 0 17px 0 0; }
+  25% { inset: 17px 17px 0 0; }
+  37.5% { inset: 17px 0 0 0; }
+  50% { inset: 17px 0 0 17px; }
+  62.5% { inset: 0 0 0 17px; }
+  75% { inset: 0 0 17px 17px; }
+  87.5% { inset: 0 0 17px 0; }
+  100% { inset: 0 17px 17px 0; }
+}
+
+/* Medium size adjustments */
+.loading-spinner-medium .loading-spinner-dot {
+  animation: loaderAnimMedium 2.5s infinite;
+}
+
+.loading-spinner-medium .loading-spinner-dot2 {
+  animation-delay: -1.25s;
+}
+
+@keyframes loaderAnimMedium {
+  0% { inset: 0 24px 24px 0; }
+  12.5% { inset: 0 24px 0 0; }
+  25% { inset: 24px 24px 0 0; }
+  37.5% { inset: 24px 0 0 0; }
+  50% { inset: 24px 0 0 24px; }
+  62.5% { inset: 0 0 0 24px; }
+  75% { inset: 0 0 24px 24px; }
+  87.5% { inset: 0 0 24px 0; }
+  100% { inset: 0 24px 24px 0; }
+}
