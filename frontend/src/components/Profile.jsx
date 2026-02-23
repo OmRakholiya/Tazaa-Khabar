@@ -31,7 +31,9 @@ function Profile() {
                 axios.get(`${API_BASE}/auth/history`, { headers })
             ])
             setProfile(profileRes.data.profile)
-            setHistory(historyRes.data.history || [])
+            const historyData = historyRes.data.history || []
+            // Sort by read_at descending (newest first)
+            setHistory(historyData.sort((a, b) => new Date(b.read_at) - new Date(a.read_at)))
         } catch (err) {
             console.error('Failed to load profile:', err)
         } finally {
@@ -179,7 +181,7 @@ function Profile() {
                             {history.length === 0 ? (
                                 <p className="profile-empty">No reading history yet. Start reading articles!</p>
                             ) : (
-                                history.map((item, i) => (
+                                history.slice(0, 7).map((item, i) => (
                                     <div key={i} className="profile-list-item">
                                         <div className="profile-list-dot" style={{ backgroundColor: categoryColors[item.article_category] || '#6b7280' }} />
                                         <div className="profile-list-info">
