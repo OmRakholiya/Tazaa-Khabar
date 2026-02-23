@@ -177,7 +177,7 @@ This project is open source and available under the MIT License.
 
 ## Author
 
-**Daksh Savani** - Developer of Taaza Khabar
+**Om Rakholiya** - Developer of Taaza Khabar
 
 ---
 
