@@ -2,9 +2,9 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import {
-  HiClock, HiExternalLink, HiRefresh, HiInformationCircle,
+  HiExternalLink, HiRefresh, HiInformationCircle,
   HiFilter, HiX, HiEmojiHappy, HiEmojiSad, HiMinus, HiOutlineNewspaper,
-  HiBookmark, HiSparkles
+  HiBookmark
 } from 'react-icons/hi'
 import LoadingSpinner from './LoadingSpinner'
 import SearchBar from './SearchBar'
@@ -24,7 +24,6 @@ function Articles() {
   const [showSidePanel, setShowSidePanel] = useState(false)
   const [totalArticles, setTotalArticles] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
-  const [liveMode, setLiveMode] = useState(false)
   const [lastRefreshed, setLastRefreshed] = useState(new Date())
   const [tldrMap, setTldrMap] = useState({})
   const [tldrLoading, setTldrLoading] = useState({})
@@ -51,17 +50,6 @@ function Articles() {
       setTotalArticles(res.data.total || processed.length)
       setLastRefreshed(new Date())
 
-      // If this is a live-mode refresh, show toast about new articles
-      if (silent && newCount > oldCount) {
-        const diff = newCount - oldCount
-        addToast(`📰 ${diff} new article${diff > 1 ? 's' : ''} arrived!`, 'news', 6000)
-        // Browser notification too
-        if ('Notification' in window && Notification.permission === 'granted') {
-          new Notification('📰 Taaza Khabar', { body: `${diff} new articles just in!` })
-        }
-      } else if (silent && newCount === oldCount) {
-        addToast('No new articles yet — checking again in 5 min', 'info', 3000)
-      }
 
       prevArticleCount.current = newCount
     } catch (err) {
@@ -83,28 +71,6 @@ function Articles() {
     fetchArticlesFromDB()
   }, [fetchArticlesFromDB])
 
-  // Live mode: auto-refresh every 5 minutes with toast notifications
-  useEffect(() => {
-    if (!liveMode) return
-    addToast('🔴 Live Mode ON — auto-refreshing every 5 minutes', 'success', 4000)
-    const interval = setInterval(() => {
-      fetchArticlesFromDB(true) // silent=true to use toast instead of loading spinner
-    }, 5 * 60 * 1000)
-    return () => clearInterval(interval)
-  }, [liveMode, fetchArticlesFromDB, addToast])
-
-  const enableLiveMode = () => {
-    const newMode = !liveMode
-    setLiveMode(newMode)
-    if (newMode) {
-      // Request notification permission
-      if ('Notification' in window && Notification.permission === 'default') {
-        Notification.requestPermission()
-      }
-    } else {
-      addToast('Live Mode turned off', 'info', 3000)
-    }
-  }
 
   const getArticlesToDisplay = () => {
     return articles.filter(a => {
@@ -126,7 +92,6 @@ function Articles() {
     try {
       await axios.post(`${API_BASE}/scrape?n=20`)
       await fetchArticlesFromDB()
-      addToast(`✅ Quick Scraped 20 new articles!`, 'success', 5000)
     } catch (err) {
       console.error(err)
       setError('Failed to scrape news')
@@ -142,10 +107,8 @@ function Articles() {
     try {
       if (isBookmarked(article.title)) {
         await removeBookmark(article.title)
-        addToast('Bookmark removed', 'info', 2000)
       } else {
         await addBookmark(article)
-        addToast('📌 Article bookmarked!', 'success', 2000)
       }
     } catch (err) {
       console.error('Bookmark error:', err)
@@ -185,14 +148,6 @@ function Articles() {
           <div className="left-controls">
             <button onClick={() => setShowSidePanel(!showSidePanel)} className="control-btn">
               <HiFilter size={16} /> Filters
-            </button>
-            <button
-              onClick={enableLiveMode}
-              className={`control-btn ${liveMode ? 'live-active' : ''}`}
-              title="Auto-refresh every 5 minutes"
-            >
-              <span className={`live-dot ${liveMode ? 'pulse' : ''}`} />
-              {liveMode ? 'Live' : 'Live Mode'}
             </button>
             <button onClick={() => fetchArticlesFromDB()} disabled={loading} className="control-btn" title="Refresh articles">
               <HiRefresh size={16} className={loading ? 'spinning' : ''} />
@@ -302,17 +257,6 @@ function Articles() {
                     <h2>{a.title}</h2>
                     <p>{a.summary}</p>
                     <div className="article-card-footer">
-                      <span className="article-date"><HiClock size={12} /> {formatDate(a.published)}</span>
-                      <span className="article-reading-time">{a.readingTime}</span>
-
-                      <button
-                        onClick={(e) => handleTldr(e, a)}
-                        className={`tldr-btn ${tldrMap[a.title] ? 'active' : ''}`}
-                        title="AI Summary"
-                        disabled={tldrLoading[a.title]}
-                      >
-                        <HiSparkles size={14} />{tldrLoading[a.title] ? '...' : ''}
-                      </button>
                       {isAuthenticated && (
                         <button
                           onClick={(e) => handleBookmark(e, a)}
@@ -323,12 +267,7 @@ function Articles() {
                         </button>
                       )}
                     </div>
-                    {tldrMap[a.title] && (
-                      <div className="tldr-summary">
-                        <span className="tldr-label"><HiSparkles size={12} /> AI Detailed Insights</span>
-                        <p style={{ whiteSpace: 'pre-line' }}>{tldrMap[a.title]}</p>
-                      </div>
-                    )}
+
                   </article>
                 </Link>
               ))}
@@ -336,9 +275,6 @@ function Articles() {
           )}
         </main>
       </div>
-
-      {/* Footer */}
-      {aboutInfo && <footer className="footer"><HiInformationCircle size={16} /> {aboutInfo.project} v{aboutInfo.version} • By {aboutInfo.developer}</footer>}
 
 
     </div>

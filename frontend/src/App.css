@@ -843,7 +843,7 @@ body {
 
 .articles-header {
   background: var(--surface);
-  padding: 1.25rem 1.5rem;
+  padding: 1.25rem 2rem;
   border-bottom: 1px solid var(--card-border);
   box-shadow: 0 6px 18px rgba(2, 6, 23, 0.35);
 }
@@ -859,7 +859,7 @@ body {
 .left-controls {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .right-controls {
@@ -902,6 +902,22 @@ body {
 .control-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.control-btn.icon-only {
+  padding: 0.6rem 0.7rem;
+  gap: 0;
+  color: var(--muted);
+}
+
+.control-btn.icon-only:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.control-btn.active {
+  background: rgba(124, 156, 255, 0.12);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 /* AI Hub Page Styles */
@@ -1820,6 +1836,7 @@ numbered-list li::before {
   /* Increased height for bigger cards */
   min-height: 400px;
   max-height: 400px;
+  text-align: center;
 }
 
 .article-card:hover {
@@ -1854,6 +1871,7 @@ numbered-list li::before {
   text-overflow: ellipsis;
   height: 5.1rem;
   /* Increased height for title - 3 lines */
+  text-align: center;
 }
 
 .article-card p {
@@ -3963,7 +3981,7 @@ numbered-list li::before {
 }
 
 .article-detail-container {
-  max-width: 1100px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -4006,9 +4024,7 @@ numbered-list li::before {
 }
 
 .article-detail-layout {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 2rem;
+  display: block;
   text-align: left;
 }
 
@@ -4317,36 +4333,6 @@ numbered-list li::before {
   color: var(--primary);
 }
 
-/* Live mode */
-.live-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--muted);
-  display: inline-block;
-}
-
-.live-dot.pulse {
-  background: #ef4444;
-  animation: pulse-dot 1.5s infinite;
-}
-
-.live-active {
-  border-color: rgba(239, 68, 68, 0.3);
-  color: #ef4444 !important;
-}
-
-@keyframes pulse-dot {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.4;
-  }
-}
 
 /* Results info bar */
 .results-info {
@@ -5008,9 +4994,7 @@ numbered-list li::before {
 
 /* Category Content */
 .category-content {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 2rem;
+  display: block;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
@@ -5372,7 +5356,7 @@ numbered-list li::before {
 
 .profile-list-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
   border-radius: 10px;
@@ -5430,6 +5414,25 @@ numbered-list li::before {
 
 .profile-list-link:hover {
   text-decoration: underline;
+}
+
+.bookmark-remove-btn {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0.35rem;
+  border: none;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.bookmark-remove-btn:hover {
+  color: #ef4444;
+  transform: scale(1.15);
 }
 
 @media (max-width: 768px) {

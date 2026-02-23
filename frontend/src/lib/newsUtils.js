@@ -71,11 +71,13 @@ export const getReadingTime = (text) => {
 
 // Process articles with sentiment and category
 export const processArticles = (articles) => {
-    return articles.map(a => ({
-        ...a,
-        sentiment: analyzeSentiment(`${a.title || ''} ${a.summary || ''}`),
-        category: assignCategory(a),
-        readingTime: getReadingTime(`${a.title || ''} ${a.summary || ''}`),
-        _sortKey: new Date(a.published === 'Unknown' ? a.fetched_at : a.published).getTime()
-    })).sort((a, b) => b._sortKey - a._sortKey)
+    return articles
+        .filter(a => a.summary && a.summary.trim().length > 0)
+        .map(a => ({
+            ...a,
+            sentiment: analyzeSentiment(`${a.title || ''} ${a.summary || ''}`),
+            category: assignCategory(a),
+            readingTime: getReadingTime(`${a.title || ''} ${a.summary || ''}`),
+            _sortKey: new Date(a.published === 'Unknown' ? a.fetched_at : a.published).getTime()
+        })).sort((a, b) => b._sortKey - a._sortKey)
 }

@@ -8,7 +8,7 @@ import { categoryColors, formatDate } from '../lib/newsUtils'
 import LoadingSpinner from './LoadingSpinner'
 
 function Profile() {
-    const { user, token, isAuthenticated, bookmarks } = useAuth()
+    const { user, token, isAuthenticated, bookmarks, removeBookmark } = useAuth()
     const navigate = useNavigate()
     const [profile, setProfile] = useState(null)
     const [history, setHistory] = useState([])
@@ -36,6 +36,14 @@ function Profile() {
             console.error('Failed to load profile:', err)
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleRemoveBookmark = async (articleTitle) => {
+        try {
+            await removeBookmark(articleTitle)
+        } catch (err) {
+            console.error('Failed to remove bookmark:', err)
         }
     }
 
@@ -207,6 +215,13 @@ function Profile() {
                                                 )}
                                             </div>
                                         </div>
+                                        <button
+                                            onClick={() => handleRemoveBookmark(item.article_title)}
+                                            className="bookmark-remove-btn"
+                                            title="Remove bookmark"
+                                        >
+                                            <HiBookmark size={18} />
+                                        </button>
                                     </div>
                                 ))
                             )}

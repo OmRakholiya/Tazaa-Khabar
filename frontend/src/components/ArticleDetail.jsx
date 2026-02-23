@@ -3,12 +3,10 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import {
     HiArrowLeft, HiClock, HiExternalLink, HiBookmark,
-    HiEmojiHappy, HiEmojiSad, HiMinus, HiGlobeAlt, HiSparkles
+    HiEmojiHappy, HiEmojiSad, HiMinus
 } from 'react-icons/hi'
 import { useAuth } from '../context/AuthContext'
-import { formatDate, getReadingTime, categoryColors, processArticles } from '../lib/newsUtils'
-import API_BASE from '../lib/api'
-import LoadingSpinner from './LoadingSpinner'
+import { formatDate, getReadingTime, categoryColors } from '../lib/newsUtils'
 
 function ArticleDetail() {
     const { state } = useLocation()
@@ -16,40 +14,15 @@ function ArticleDetail() {
     const { isAuthenticated, isBookmarked, addBookmark, removeBookmark, recordRead } = useAuth()
 
     const [bookmarkLoading, setBookmarkLoading] = useState(false)
-    const [aiRelated, setAiRelated] = useState([])
-    const [relatedLoading, setRelatedLoading] = useState(false)
 
     const article = state?.article
-    const fallbackRelated = state?.relatedArticles || []
 
-    // Track read & fetch AI related articles
+    // Track read
     useEffect(() => {
         if (!article) return
-
-        // Record read
         if (isAuthenticated) {
             recordRead(article)
         }
-
-        // Fetch AI-related articles
-        const fetchRelated = async () => {
-            setRelatedLoading(true)
-            try {
-                const res = await axios.post(`${API_BASE}/related`, {
-                    title: article.title,
-                    category: article.category || 'Other',
-                    summary: article.summary || ''
-                })
-                const processed = processArticles(res.data.related || [])
-                setAiRelated(processed.filter(r => r.title !== article.title).slice(0, 6))
-            } catch (err) {
-                console.error('Failed to fetch AI related:', err)
-                setAiRelated([])
-            } finally {
-                setRelatedLoading(false)
-            }
-        }
-        fetchRelated()
     }, [article?.title])
 
     if (!article) {
@@ -103,7 +76,6 @@ function ArticleDetail() {
     }
 
     const bookmarked = isAuthenticated && isBookmarked(article.title)
-    const relatedToShow = aiRelated.length > 0 ? aiRelated : fallbackRelated
 
     return (
         <div className="article-detail-page">
@@ -163,33 +135,7 @@ function ArticleDetail() {
                         </div>
                     </div>
 
-                    {/* Sidebar - AI Related Articles */}
-                    <aside className="article-detail-sidebar">
-                        <h3>
-                            <HiSparkles size={18} /> AI-Suggested Related
-                        </h3>
-                        {relatedLoading ? (
-                            <div className="related-loading">
-                                <LoadingSpinner size="small" />
-                                <p>Finding related articles...</p>
-                            </div>
-                        ) : relatedToShow.length > 0 ? (
-                            relatedToShow.slice(0, 6).map((ra, i) => (
-                                <Link
-                                    key={i}
-                                    to={`/article/${i}`}
-                                    state={{ article: ra, relatedArticles: relatedToShow.filter((_, j) => j !== i) }}
-                                    className="related-article-card"
-                                >
-                                    <span className="related-source">{ra.source}</span>
-                                    <h4>{ra.title}</h4>
-                                    <span className="related-date">{formatDate(ra.published)}</span>
-                                </Link>
-                            ))
-                        ) : (
-                            <p className="no-related">No related articles found.</p>
-                        )}
-                    </aside>
+
                 </div>
             </div>
         </div>

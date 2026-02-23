@@ -54,8 +54,12 @@ RSS_FEEDS = {
 
 # Function to strip HTML tags from RSS summary
 def clean_summary(summary_html):
+    if not summary_html:
+        return None
     soup = BeautifulSoup(summary_html, "html.parser")
-    return soup.get_text()
+    text = soup.get_text(separator=" ").strip()
+    return text if text else None
+
 
 def get_news(n: int):
     if n <= 0:
@@ -90,10 +94,14 @@ def get_news(n: int):
                     if collected_articles >= n or source_articles >= articles_per_source * 2:  # Allow some flexibility
                         break
                         
+                    summary = clean_summary(entry.get("summary", ""))
+                    if not summary:
+                        continue  # skip articles with no readable summary
+
                     article_data = {
                         "source": source_name,
                         "title": entry.title.strip(),
-                        "summary": clean_summary(entry.summary),
+                        "summary": summary,
                         "link": entry.link,
                         "published": entry.get("published", "Unknown"),
                         "fetched_at": datetime.utcnow().isoformat()

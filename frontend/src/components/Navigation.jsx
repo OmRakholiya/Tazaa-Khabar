@@ -143,9 +143,6 @@ function Navigation() {
                   <button onClick={() => { setShowUserMenu(false); navigate('/profile') }}>
                     <HiUser size={16} /> My Profile
                   </button>
-                  <button onClick={() => { setShowUserMenu(false); navigate('/profile') }}>
-                    <HiBookmark size={16} /> My Bookmarks
-                  </button>
                   <button onClick={handleLogout} className="logout-option">
                     <HiLogout size={16} /> Sign Out
                   </button>

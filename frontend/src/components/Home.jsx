@@ -154,47 +154,7 @@ function Home() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="home-footer">
-          <div className="container">
-            <div className="footer-grid">
-              {/* Brand Column */}
-              <div className="footer-brand-col">
-                <div className="footer-brand">
-                  <HiNewspaper size={24} />
-                  <span>Taaza Khabar</span>
-                </div>
-                <p className="footer-tagline">Intelligent News Without Overload. AI-powered aggregation from 14+ trusted Indian news sources.</p>
-              </div>
 
-              {/* Quick Links */}
-              <div className="footer-links-col">
-                <h4>Quick Links</h4>
-                <ul>
-                  <li><Link to="/"><HiClock size={14} /> Home</Link></li>
-                  <li><Link to="/articles"><HiGlobeAlt size={14} /> Articles</Link></li>
-                  <li><Link to="/chatbot"><HiChat size={14} /> AI Chat</Link></li>
-
-                </ul>
-              </div>
-
-              {/* Tech Stack */}
-              <div className="footer-links-col">
-                <h4>Powered By</h4>
-                <ul>
-                  <li><span>⚛️ React + Vite</span></li>
-                  <li><span>⚡ FastAPI + Python</span></li>
-                  <li><span>🤖 Google Gemini AI</span></li>
-                  <li><span>🗄️ MongoDB Atlas</span></li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="footer-bottom">
-              <p>© {new Date().getFullYear()} Taaza Khabar • Built by <strong>Daksh Savani</strong> • v1.0.0</p>
-            </div>
-          </div>
-        </footer>
       </div>
     </div>
   )

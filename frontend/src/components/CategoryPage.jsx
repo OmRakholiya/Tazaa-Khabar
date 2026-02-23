@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
 import {
-    HiClock, HiEmojiHappy, HiEmojiSad, HiMinus, HiBookmark,
-    HiArrowLeft, HiGlobeAlt, HiChartBar, HiExternalLink
+    HiEmojiHappy, HiEmojiSad, HiMinus, HiBookmark,
+    HiArrowLeft, HiGlobeAlt, HiChartBar
 } from 'react-icons/hi'
 import LoadingSpinner from './LoadingSpinner'
 import SearchBar from './SearchBar'
@@ -14,52 +14,37 @@ import { useAuth } from '../context/AuthContext'
 // Category metadata for hero sections
 const categoryMeta = {
     Politics: {
-        icon: '🏛️',
         gradient: 'linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #7f1d1d 100%)',
         tagline: 'Government, elections, policy & governance',
-        emoji: '🗳️'
     },
     Technology: {
-        icon: '💻',
         gradient: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e3a8a 100%)',
         tagline: 'Innovation, AI, startups & digital world',
-        emoji: '🚀'
     },
     Business: {
-        icon: '📈',
         gradient: 'linear-gradient(135deg, #d97706 0%, #b45309 50%, #78350f 100%)',
         tagline: 'Markets, economy, finance & trade',
-        emoji: '💰'
     },
     Sports: {
-        icon: '⚽',
         gradient: 'linear-gradient(135deg, #059669 0%, #047857 50%, #064e3b 100%)',
         tagline: 'Cricket, football, Olympics & championships',
-        emoji: '🏆'
     },
     Entertainment: {
-        icon: '🎬',
         gradient: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4c1d95 100%)',
         tagline: 'Bollywood, music, celebrities & streaming',
-        emoji: '🌟'
+
     },
     Health: {
-        icon: '🏥',
         gradient: 'linear-gradient(135deg, #db2777 0%, #be185d 50%, #831843 100%)',
         tagline: 'Medicine, fitness, mental health & wellness',
-        emoji: '💊'
     },
     Education: {
-        icon: '📚',
         gradient: 'linear-gradient(135deg, #0d9488 0%, #0f766e 50%, #134e4a 100%)',
         tagline: 'Schools, exams, universities & learning',
-        emoji: '🎓'
     },
     International: {
-        icon: '🌍',
         gradient: 'linear-gradient(135deg, #e11d48 0%, #be123c 50%, #881337 100%)',
         tagline: 'World affairs, diplomacy & global news',
-        emoji: '🌐'
     }
 }
 
@@ -74,10 +59,8 @@ function CategoryPage() {
     // Normalize category name from URL
     const category = categoryName ? categoryName.charAt(0).toUpperCase() + categoryName.slice(1).toLowerCase() : ''
     const meta = categoryMeta[category] || {
-        icon: '📰',
         gradient: 'linear-gradient(135deg, #6b7280 0%, #4b5563 50%, #374151 100%)',
         tagline: 'Latest news and updates',
-        emoji: '📰'
     }
 
     const fetchArticles = useCallback(async () => {
@@ -150,10 +133,8 @@ function CategoryPage() {
                     <h1>{category} News</h1>
                     <p>{meta.tagline}</p>
                     <div className="category-hero-stats">
-                        <span>{meta.emoji} {articles.length} articles</span>
-                        <span>📰 {uniqueSources} sources</span>
-                        <span>😊 {positiveCount} positive</span>
-                        <span>😟 {negativeCount} negative</span>
+                        <span>{articles.length} articles</span>
+                        <span>{uniqueSources} sources</span>
                     </div>
                 </div>
                 {/* Decorative shapes */}
@@ -211,11 +192,6 @@ function CategoryPage() {
                                         <h2>{a.title}</h2>
                                         <p>{a.summary}</p>
                                         <div className="article-card-footer">
-                                            <span className="article-date"><HiClock size={12} /> {formatDate(a.published)}</span>
-                                            <span className="article-reading-time">{a.readingTime}</span>
-                                            <span className="sentiment-badge" style={{ backgroundColor: getSentimentColor(a.sentiment) }}>
-                                                {getSentimentIcon(a.sentiment)}
-                                            </span>
                                             {isAuthenticated && (
                                                 <button
                                                     onClick={(e) => handleBookmark(e, a)}
@@ -232,29 +208,7 @@ function CategoryPage() {
                     )}
                 </div>
 
-                {/* Sidebar - Browse other categories */}
-                <aside className="category-sidebar">
-                    <h3><HiGlobeAlt size={18} /> Browse Categories</h3>
-                    {otherCategories.map(cat => {
-                        const catMeta = categoryMeta[cat]
-                        const catCount = allArticles.filter(a => a.category === cat).length
-                        return (
-                            <Link
-                                key={cat}
-                                to={`/category/${cat.toLowerCase()}`}
-                                className="category-sidebar-link"
-                                style={{ '--cat-color': categoryColors[cat] }}
-                            >
 
-                                <div className="cat-sidebar-info">
-                                    <strong>{cat}</strong>
-                                    <small>{catCount} article{catCount !== 1 ? 's' : ''}</small>
-                                </div>
-                                <HiChartBar size={14} className="cat-sidebar-arrow" />
-                            </Link>
-                        )
-                    })}
-                </aside>
             </div>
         </div>
     )
